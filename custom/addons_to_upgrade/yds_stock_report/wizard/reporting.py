@@ -194,7 +194,8 @@ class StockReportWizard(models.TransientModel):
 
         workbook.close()
         output.seek(0)
-        self.write({'excel_sheet': base64.encodebytes(output.getvalue())})
+        # Use standard b64encode and store as text to avoid binary/newline issues
+        self.write({'excel_sheet': base64.b64encode(output.getvalue()).decode('ascii')})
 
         return {
             'type': 'ir.actions.act_url',

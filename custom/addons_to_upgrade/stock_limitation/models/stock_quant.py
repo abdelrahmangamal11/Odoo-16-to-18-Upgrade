@@ -21,7 +21,8 @@ class stock_quant(models.Model):
                 return loc.removal_strategy_id.with_context(lang=None).method
             loc = loc.location_id
         return 'fifo'
- 
+    
+    
     # @api.model
     # def _get_removal_strategy(self, product_id, location_id):
     #     product_id = product_id.sudo()

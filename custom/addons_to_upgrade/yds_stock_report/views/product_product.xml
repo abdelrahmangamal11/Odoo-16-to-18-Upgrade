@@ -10,7 +10,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='taxes_id']" position="after">
-                    <field name="report_in_qty"/>
+                    <field  name="report_in_qty"/>
                 </xpath>
 
             </field>
