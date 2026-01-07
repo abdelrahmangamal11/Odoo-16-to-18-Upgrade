@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="is_sales_person_inherit_res_partner" model="ir.ui.view">
+        <field name="name">is.sales.person.inherit.res.partner</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook/page[@name='sales_purchases']/group/group[@name='sale']/field[@name='user_id']" position="attributes">
+                <attribute name="domain">[('share', '=', False),('is_sales_person','=',True)]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="paperformat_stock_report" model="report.paperformat">
+            <field name="name">Stock Report Landscape</field>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="stock_report_pdf_action" model="ir.actions.report">
+            <field name="name">Stock Report</field>
+            <field name="model">stock.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="paperformat_id" ref="yds_stock_report.paperformat_stock_report"/>
+            <field name="report_name">yds_stock_report.stock_report_pdf</field>
+            <field name="report_file">yds_stock_report.stock_report_pdf</field>
+            <field name="binding_model_id" ref="model_stock_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="stock_report_pdf">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h3 style="color:grey;text-align:center">Stock Report</h3>
+                            <t t-if="doc.product_ids">
+                                <h4 style="color:grey;text-align:center">
+                                    For Product
+                                </h4>
+                                <t t-foreach="doc.product_ids" t-as="product">
+                                    <h4 style="text-align:center">
+                                        <span t-field="product.name"/>
+                                    </h4>
+                                </t>
+                            </t>
+                            <t t-if="doc.start_date">
+                                <h4 style="text-align:center">
+                                    From
+                                </h4>
+                                <h4 style="color:grey;text-align:center">
+                                    <span>Start Date</span>
+                                    <span t-field="doc.start_date"/>
+                                </h4>
+                            </t>
+                            <br/>
+                            <t t-if="doc.end_date">
+                                <h4 style="color:grey;text-align:center">
+                                    <span>End Date</span>
+                                    <span t-field="doc.end_date"/>
+                                </h4>
+                            </t>
+                            <table border="1" class="mt32 table oe_import_grid bg_white" style="table-layout: fixed;">
+                                <thead>
+                                    <tr style="border=1">
+<!--                                        <th>SN</th>-->
+                                        <th class="flex-nowrap" style="font-size:9px;text-align:left;">Trans Num</th>
+                                        <th class="text-nowrap" style="font-size:9px">Customer</th>
+                                        <th class="text-nowrap" style="font-size:9px;width:50px;text-align:center;">BU</th>
+                                        <th class="text-nowrap" style="font-size:9px">Trans Date</th>
+                                        <th class="flex-nowrap" style="font-size:9px">Payment Term</th>
+                                    </tr>
+                                </thead>
+<!--                                <tbody>-->
+<!--                                    <t t-set="sr" t-value="0"/>-->
+<!--                                    <tr t-foreach="doc.account_move_ids.sorted(key=lambda x: x.partner_id.name)" t-as="move">-->
+<!--                                        <t t-set="remaining_days" t-value="0"/>-->
+<!--                                        <t t-set="remaining_days" t-value="((doc.today - move.invoice_date_due).days)"/>-->
+<!--                                        <t t-set="sr" t-value="sr + 1"/>-->
+<!--&lt;!&ndash;                                        <td class="text-center">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <span class="text-nowrap" t-esc="sr"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        </td>&ndash;&gt;-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.name">-->
+<!--                                                <span class="flex-nowrap" style="font-size:9px" t-field="move.name"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.partner_id">-->
+<!--                                                <span class="flex-nowrap" style="font-size:9px" t-field="move.partner_id.name"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.analytic_account_id and move.analytic_account_id.group_id">-->
+<!--                                                <span style="font-size:9px" t-field="move.analytic_account_id.group_id.name"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.invoice_date">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.invoice_date"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.invoice_payment_term_id">-->
+<!--                                                <span style="font-size:9px" t-field="move.invoice_payment_term_id.name"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.invoice_date_due">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.invoice_date_due"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.currency_id">-->
+<!--                                                <span style="font-size:9px" t-field="move.currency_id.symbol"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.amount_residual">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_residual"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.amount_remaining">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.rate">-->
+<!--                                                <span style="font-size:9px" t-field="move.rate"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="move.partner_id.credit">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.partner_id.credit"/>-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &lt; 31">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 30 and remaining_days &lt; 61">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 60 and remaining_days &lt; 91">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 90 and remaining_days &lt; 121">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 120 and remaining_days &lt; 181">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 180 and remaining_days &lt; 271">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 270 and remaining_days &lt; 361">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-if="remaining_days &gt; 360">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.amount_remaining"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-else="">-->
+<!--                                            </t>-->
+<!--                                        </td>-->
+
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

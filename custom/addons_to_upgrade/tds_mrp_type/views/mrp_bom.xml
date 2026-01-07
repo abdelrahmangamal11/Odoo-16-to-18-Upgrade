@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_type_inherit_mrp_bom" model="ir.ui.view">
+        <field name="name">mrp.type.inherit.mrp.bom</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group[1]/div" position="after">
+                <field name="mrp_type_id" options="{'no_create': True}" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

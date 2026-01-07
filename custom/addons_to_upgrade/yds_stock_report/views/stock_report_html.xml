@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+        <record id="stock_report_html_action" model="ir.actions.report">
+            <field name="name">Stock Report</field>
+            <field name="model">stock.report.wizard</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">yds_stock_report.stock_report_html_template</field>
+            <field name="report_file">yds_stock_report.stock_report_html_template</field>
+            <field name="binding_model_id" ref="model_stock_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="stock_report_html_template">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h3 style="color:grey;text-align:center">Stock Report</h3>
+                            <t t-if="doc.product_ids">
+                                <h4 style="color:grey;text-align:center">
+                                    For Partner
+                                </h4>
+                                <t t-foreach="doc.product_ids" t-as="product">
+                                    <h4 style="text-align:center">
+                                        <span t-field="product.name"/>
+                                    </h4>
+                                </t>
+                            </t>
+                            <t t-if="doc.start_date">
+                                <h4 style="text-align:center">
+                                    From
+                                </h4>
+                                <h4 style="color:grey;text-align:center">
+                                    <span>Start Date</span>
+                                    <span t-field="doc.start_date"/>
+                                </h4>
+                            </t>
+                            <br/>
+                            <t t-if="doc.end_date">
+                                <h4 style="color:grey;text-align:center">
+                                    <span>End Date</span>
+                                    <span t-field="doc.end_date"/>
+                                </h4>
+                            </t>
+                            <table border="1" class="mt32 table oe_import_grid bg_white" style="table-layout: fixed;">
+                                <thead>
+                                    <tr style="border=1">
+                                        <th>SN</th>
+                                        <th class="flex-nowrap" style="font-size:9px;text-align:left;">Product</th>
+                                        <th class="flex-nowrap" style="font-size:9px;text-align:left;">Move Name</th>
+                                        <th class="text-nowrap" style="font-size:9px">Opening</th>
+                                        <th class="text-nowrap" style="font-size:9px;width:50px;text-align:center;">in</th>
+                                        <th class="text-nowrap" style="font-size:9px">out</th>
+                                        <th class="flex-nowrap" style="font-size:9px">returned</th>
+                                        <th class="flex-nowrap" style="font-size:9px">Ending</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="sr" t-value="0"/>
+                                    <tr t-foreach="doc.move_line_ids.sorted(key=lambda x: x.product_id.name)" t-as="move">
+                                          <t t-set="opening" t-value="doc.opening[move.product_id.id]"/>
+
+                                        <t t-set="sr" t-value="sr + 1"/>
+                                        <td class="text-center">
+                                            <span class="text-nowrap" t-esc="sr"/>
+                                        </td>
+                                        <td>
+                                            <t t-if="move.product_id.name">
+                                                <span class="text-nowrap" style="font-size:9px" t-field="move.product_id.name"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="move.reference">
+                                                <span class="text-nowrap" style="font-size:9px" t-field="move.reference"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="opening">
+                                                <span class="flex-nowrap" style="font-size:9px" t-esc="opening"/>
+                                            </t>
+                                        </td>
+                                        <td>
+<!--                                            <t t-if="move.analytic_account_id and move.analytic_account_id.group_id">-->
+<!--                                                <span style="font-size:9px" t-field="move.analytic_account_id.group_id.name"/>-->
+<!--                                            </t>-->
+                                            in
+                                        </td>
+                                        <td>
+<!--                                            <t t-if="move.invoice_date">-->
+<!--                                                <span class="text-nowrap" style="font-size:9px" t-field="move.invoice_date"/>-->
+<!--                                            </t>-->
+                                            out
+                                        </td>
+                                        <td>
+                                            ending
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

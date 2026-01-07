@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mrp_type_inherit_mrp_order" model="ir.ui.view">
+        <field name="name">mrp.type.inherit.mrp.order</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group[2]/field[@name='user_id']" position="after">
+                <field name="mrp_type_id" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

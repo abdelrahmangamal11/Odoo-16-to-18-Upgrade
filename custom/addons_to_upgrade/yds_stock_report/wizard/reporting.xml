@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="stock_report_wizard_view" model="ir.ui.view">
+        <field name="name">stock.report.wizard.view</field>
+        <field name="model">stock.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Stock Report">
+                <group>
+                    <group>
+                        <field name="product_ids" widget="many2many_tags" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+                        <field name="location_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>
+<!--                        <field name="category_id" options="{'no_edit': True, 'no_create': True, 'no_open': True}"/>-->
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+<!--                        <field name="opening"/>-->
+                    </group>
+                </group>
+                <footer>
+<!--                    <button name="action_create_search_html" string="View" target="_blank" type="object"-->
+<!--                            class="btn-primary"/>-->
+<!--                    <button name="action_create_search_pdf" string="Pdf" type="object"-->
+<!--                            class="btn-primary"/>-->
+                    <button name="action_create_search_xlsx" string="Excel" type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="stock_report_wizard_action" model="ir.actions.act_window">
+        <field name="name">Stock Report</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="stock_report_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="stock_report_wizard_menu"
+              name="Stock Report Custom"
+              parent="stock.menu_warehouse_report"
+              action="stock_report_wizard_action"
+              sequence="3"/>
+
+</odoo>

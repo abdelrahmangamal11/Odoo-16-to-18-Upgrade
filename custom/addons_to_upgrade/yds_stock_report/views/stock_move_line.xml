@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_move_line_tree_inherit" model="ir.ui.view">
+            <field name="name">view_move_line_tree_inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="picking_type_id"/>
+                    <field name="picking_id"/>
+                    <field name="in_qty"/>
+                    <field name="out_qty"/>
+                </xpath>    
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
