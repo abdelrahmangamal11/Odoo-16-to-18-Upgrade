@@ -141,7 +141,7 @@ class StockReportWizard(models.TransientModel):
         sheet.write(2, 5, header_qty_scrap, header_format)
         sheet.write(2, 6, header_ending, header_format)
 
-        for product in self.move_line_ids.mapped('product_id'):
+        for product in (self.product_ids or self.move_line_ids.mapped('product_id')):
             opening_qty = 0
             opening_qty = sum(self.env['stock.valuation.layer'].search(
                 [('product_id', '=', product.id), ('create_date', '<=', self.start_date)]).mapped('quantity'))
@@ -153,7 +153,7 @@ class StockReportWizard(models.TransientModel):
                  ('location_dest_id.name', 'not like', '%Scrap%'),
                  ('state', '=', 'done'), '|', ('picking_id.origin', 'like', '%إرجاع%'),
                  ('picking_id.origin', 'like', '%Return%')])
-            qty_rtn = sum(rtn_moves.mapped('qty_done'))
+            qty_rtn = sum(rtn_moves.mapped('quantity'))
             qty_scrap = 0.0
             scrap_moves = self.env['stock.scrap'].search([('product_id', '=', product.id), ('create_date', '>=', start_date),
                                                           ('create_date', '<=', end_date), ('state', '=', 'done')])
@@ -163,12 +163,12 @@ class StockReportWizard(models.TransientModel):
             return_qty = 0.0
             for move in rtn_moves:
                 if 'IN' in move.picking_id.origin:
-                    in_quantities += move.qty_done
-                    return_qty += move.qty_done
+                    in_quantities += move.quantity
+                    return_qty += move.quantity
 
                 if 'OUT' in move.picking_id.origin:
-                    out_quantities += move.qty_done
-                    return_qty -= move.qty_done
+                    out_quantities += move.quantity
+                    return_qty -= move.quantity
 
             out_quantities = out_quantities - qty_scrap
             qty_out -= in_quantities

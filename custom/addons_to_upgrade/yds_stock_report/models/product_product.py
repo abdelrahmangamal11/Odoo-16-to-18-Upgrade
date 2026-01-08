@@ -26,6 +26,8 @@ class ProductProduct(models.Model):
             ('date', '<=', end_date)
         ])
 
-        in_qty = sum(move_lines.filtered(lambda x: x.picking_id and x.picking_id.picking_type_id and x.picking_id.picking_type_id.code == 'incoming').mapped('qty_done'))
-        out_qty = sum(move_lines.filtered(lambda x: x.picking_id and x.picking_id.picking_type_id and x.picking_id.picking_type_id.code == 'outgoing').mapped('qty_done'))
+        in_qty = sum(move_lines.filtered(lambda x: x.picking_id and x.picking_id.picking_type_id and x.picking_id.picking_type_id.code == 'incoming').mapped('quantity'))
+        print(in_qty+"555555555555555555555555555555555555555555555555555555555555555555555")
+        out_qty = sum(move_lines.filtered(lambda x: x.picking_id and x.picking_id.picking_type_id and x.picking_id.picking_type_id.code == 'outgoing').mapped('quantity'))
+        print(out_qty+"555555555555555555555555555555555555555555555555555555555555555555555")
         return in_qty - out_qty

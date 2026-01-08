@@ -9,8 +9,8 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='location_id']" position="after">
-                    <!-- <field name="picking_type_id"/>
-                    <field name="picking_id"/> -->
+                    <field name="picking_type_id"/>
+                    <field name="picking_id"/>
                     <field name="in_qty"/>
                     <field name="out_qty"/>
                 </xpath>    

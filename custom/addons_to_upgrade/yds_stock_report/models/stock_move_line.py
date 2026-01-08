@@ -15,7 +15,7 @@ class StockMoveLine(models.Model):
     # internal_tran_qty = fields.Char(string='Internal Tran Qty', compute='_compute_internal_tran_qty', store=True)
     # mrp_qty = fields.Char(string='Manufacture Qty', compute='_compute_mrp_qty', store=True)
 
-    @api.depends('location_dest_id.usage', 'location_id.usage', 'qty_done', 'picking_type_id')
+    @api.depends('location_dest_id.usage', 'location_id.usage', 'quantity', 'picking_type_id')
     def _compute_returned_qty(self):
         for rec in self:
             rec.returned_qty = 0.0
@@ -23,7 +23,7 @@ class StockMoveLine(models.Model):
                     ['internal', 'transit'] and rec.picking_type_id.name == "Returns"):
                 rec.returned_qty += rec.qty_done
 
-    @api.depends('location_dest_id.usage', 'location_id.usage', 'qty_done')
+    @api.depends('location_dest_id.usage', 'location_id.usage', 'quantity')
     def _compute_in_qty(self):
         for rec in self:
             rec.in_qty = 0.0
@@ -31,7 +31,7 @@ class StockMoveLine(models.Model):
             if rec.location_id.usage not in ['internal', 'transit'] and rec.location_dest_id.usage in ['internal','transit'] :
                 rec.in_qty += rec.qty_done
 
-    @api.depends('location_dest_id.usage', 'location_id.usage', 'qty_done')
+    @api.depends('location_dest_id.usage', 'location_id.usage', 'quantity')
     def _compute_out_qty(self):
         for rec in self:
             rec.out_qty = 0.0
