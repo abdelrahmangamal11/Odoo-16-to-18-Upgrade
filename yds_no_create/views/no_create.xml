@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!--Contacts-->
+    <record id="no_create_contacts_form" model="ir.ui.view">
+        <field name="name">no.create.contacts.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/div[2]/div/field[@name='parent_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath> 
+            <xpath expr="//form/sheet[1]/group/group[1]/div[@class='o_address_format']/field[@name='state_id']" position="attributes">
+                <attribute name="options">{'no_open': True, 'no_create': True}</attribute>   
+            </xpath>
+        </field>
+    </record>
+    <!--Sale order-->
+    <record id="no_create_sale_order_form" model="ir.ui.view">
+        <field name="name">no.create.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/list/field[@name='product_template_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field[@name='order_line']/list/field[@name='product_uom']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+        </field>
+    </record>
+    <!--Purchase order-->
+    <record id="no_create_purchase_order_form" model="ir.ui.view">
+        <field name="name">no.create.purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group/group/field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[@name='products']/field[@name='order_line']/list/field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/notebook/page[@name='products']/field[@name='order_line']/list/field[@name='product_uom']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>  
+            </xpath>
+        </field>
+    </record>
+    <!--mrp-->
+    <record id="no_create_bom_form" model="ir.ui.view">
+        <field name="name">no.create.bom.form</field>
+        <field name="model">mrp.bom</field>
+        <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_tmpl_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='components']//list//field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="no_create_manufacturing_order_form" model="ir.ui.view">
+        <field name="name">no.create.manufacturing.order.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet//div/field[@name='bom_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+
+            <xpath expr="//form/sheet/notebook/page[@name='components']/field/list/field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            
+        </field>
+    </record>
+
+    <record id="no_create_work_order_tree" model="ir.ui.view">
+        <field name="name">no.create.work.order.tree</field>
+        <field name="model">mrp.workorder</field>
+        <field name="inherit_id" ref="mrp.mrp_production_workorder_tree_editable_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='workcenter_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+        </field>
+    </record>
+    <!-- inventory product-->
+    <record id="no_create_product_form" model="ir.ui.view">
+        <field name="name">no.create.product.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view" />
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+
+            <!-- Customer Taxes -->
+            <xpath expr="//page[@name='general_information']//field[@name='taxes_id']"
+                position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <!-- Optional Products (Upsell) -->
+            <xpath expr="//page[@name='sales']//group[@name='upsell']//field[@name='optional_product_ids']"
+                position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <!-- Price Difference Account -->
+            <xpath expr="//page[@name='invoicing']//field[@name='property_account_creditor_price_difference']"
+                position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="no_create_product_seller_tree" model="ir.ui.view">
+        <field name="name">no.create.product.seller.tree</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="purchase.product_supplierinfo_tree_view2" />
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='partner_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//list/field[@name='currency_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="no_create_product_only_form" model="ir.ui.view">
+        <field name="name">no.create.product.only.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="priority">250</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='x_studio_many2many_field_zIFrC']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='x_studio_many2many_field_vdA1b']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='x_studio_many2many_field_DZdxO']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='x_studio_many2many_field_KAV0a']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='x_studio_many2many_field_9R4nC']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </xpath>
+
+        </field>
+    </record> -->
+
+    <!--quality control-->
+    <record id="no_create_quality_point_form" model="ir.ui.view">
+        <field name="name">no.create.quality.point.form</field>
+        <field name="model">quality.point</field>
+        <field name="inherit_id" ref="quality.quality_point_view_form" />
+        <field name="priority">250</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_ids']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='product_category_ids']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='picking_type_ids']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+        </field>
+    </record>
+
+    <record id="no_create_quality_check_form" model="ir.ui.view">
+        <field name="name">no.create.quality.check.form</field>
+        <field name="model">quality.check</field>
+        <field name="inherit_id" ref="quality_control.quality_check_view_form" />
+        <field name="priority">250</field>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='picking_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='production_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='point_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//field[@name='team_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+        </field>
+    </record>
+
+    <record id="no_create_quality_alert_form" model="ir.ui.view">
+        <field name="name">no.create.quality.alert.form</field>
+        <field name="model">quality.alert</field>
+        <field name="inherit_id" ref="quality_control.quality_alert_view_form" />
+        <field name="priority">250</field>
+        <field name="arch" type="xml">
+           <xpath expr="//form/sheet/group/group[1]/field[@name='product_tmpl_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/group/group[1]/field[@name='picking_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/group/group[1]/field[@name='workcenter_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/group/group[2]/field[@name='team_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/group/group[2]/field[@name='user_id']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>
+            <xpath expr="//form/sheet/group/group[2]/field[@name='tag_ids']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>    
+            </xpath>      
+        </field>
+    </record> 
+    </data>
+</odoo>
