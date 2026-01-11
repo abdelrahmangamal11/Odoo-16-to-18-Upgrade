@@ -40,23 +40,3 @@ class StockMoveLine(models.Model):
                 rec.move_id.picking_id.origin] and 'Return' not in [rec.move_id.picking_id.origin]):
                 rec.out_qty += rec.quantity
 
-    # @api.depends('picking_id.picking_type_id.code', 'qty_done')
-    # def _compute_internal_tran_qty(self):
-    #     for rec in self:
-    #         rec.internal_tran_qty = 0.0
-    #         if rec.picking_id.picking_type_id.code == 'internal' and rec.qty_done:
-    #             rec.internal_tran_qty = rec.qty_done
-    #
-    # @api.depends('picking_id.picking_type_id.code', 'qty_done')
-    # def _compute_mrp_qty(self):
-    #     for rec in self:
-    #         rec.mrp_qty = 0.0
-    #         if rec.picking_id.picking_type_id.code == 'mrp_operation' and rec.qty_done:
-    #             rec.mrp_qty = rec.qty_done
-
-    # @api.depends('picking_id.picking_type_id.code')
-    # def _compute_operation(self):
-    #     for rec in self:
-    #         rec.operation = ''
-    #         if rec.picking_id and rec.picking_id.picking_type_id and rec.picking_id.picking_type_id.code:
-    #             rec.operation = rec.picking_id.picking_type_id.code
