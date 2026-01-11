@@ -53,8 +53,3 @@ class stock_location(models.Model):
         store=True,
     )
 
-    def compute_dispaly_name(self):
-        """
-        To avoid security rights in name_get
-        """
-        return super(stock_location, self.sudo()).compute_dispaly_name()
